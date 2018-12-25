@@ -8,7 +8,7 @@ public class GeografijaDAO {
     private ArrayList<Drzava> drzave;
     private static GeografijaDAO single_instance = null;
     public boolean gradExists=false, drzavaExists=false;
-    private static Connection conn;
+    private static Connection conn, conn2;
 
 
         private static void initialize() {
@@ -21,6 +21,7 @@ public class GeografijaDAO {
                 Class.forName("org.sqlite.JDBC");
                 String url = "jdbc:sqlite:C:/Users/Adi Pilav/Desktop/sqlitee/baza.db";
                 conn = DriverManager.getConnection(url);
+                conn2 = DriverManager.getConnection(url);
                 DatabaseMetaData dbm = conn.getMetaData();
                 ResultSet tables = dbm.getTables(null, null, "drzava", null);
                 if (tables.next())
@@ -99,7 +100,6 @@ public class GeografijaDAO {
                     gradovi.add(Graz);
                     dodajGrad(Graz);
                 }
-
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -174,13 +174,23 @@ public class GeografijaDAO {
          ArrayList<Grad> gradovi(){
             ArrayList<Grad> g = new ArrayList<>();
              try {
-                 String query = "SELECT naziv, broj_stanovnika from grad order by broj_stanovnika desc";
+                 String query = "SELECT g.naziv, g.broj_stanovnika, g.id, d.id, d.naziv, d.glavni_grad from grad g, drzava d where g.drzava = d.id order by broj_stanovnika desc";
                  PreparedStatement ps = conn.prepareStatement(query);
                  ResultSet s = ps.executeQuery();
                  while(s.next()){
                     Grad temp = new Grad();
                     temp.setNaziv(s.getString(1));
-                    temp.setBrojStanovnika(2);
+                    temp.setBrojStanovnika(s.getInt(2));
+                         /*String query2 = "SELECT id, naziv, glavni_grad from drzava where glavni_grad=?";
+                         PreparedStatement ps2 = conn2.prepareStatement(query2);
+                         ps2.setInt(1, s.getInt(3));
+                         ResultSet s2 = ps2.executeQuery();*/
+                         Drzava tempDrzava = new Drzava();
+                         tempDrzava.setId(s.getInt(4));
+                         tempDrzava.setNaziv(s.getString(5));
+                         tempDrzava.setGlavniGrad(temp);
+
+                     temp.setDrzava(tempDrzava);
                     g.add(temp);
                  }
              }
@@ -219,11 +229,12 @@ public class GeografijaDAO {
         }
          void izmijeniGrad(Grad grad){
              try {
-                 String query = "UPDATE grad set naziv=?, broj_stanovnika=?, drzava=?";
+                 String query = "UPDATE grad set naziv=?, broj_stanovnika=?, drzava=? where naziv =?";
                  PreparedStatement ps = conn.prepareStatement(query);
                  ps.setString(1, grad.getNaziv());
                  ps.setInt(2, grad.getBrojStanovnika());
                  ps.setInt(3, grad.getDrzava().getId());
+                 ps.setString(4, grad.getNaziv());
                  ps.executeUpdate();
              }
              catch (Exception e){

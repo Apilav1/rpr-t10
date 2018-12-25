@@ -41,8 +41,20 @@ public class Main {
            // for(Grad g: GeografijaDAO.getInstance().gradovi())
            //     System.out.println("---"+g.getNaziv());
            //System.out.println(GeografijaDAO.getInstance().glavniGrad("Engleska"));
-            glavniGrad();
-           // ispisiGradove();
+           // glavniGrad();
+            //GeografijaDAO.getInstance();
+            Drzava testDrzava = new Drzava();
+            Grad test = new Grad();
+            testDrzava.setId(7);
+            testDrzava.setNaziv("BIH");
+            testDrzava.setGlavniGrad(test);
+            test.setId(6);
+            test.setNaziv("Sarajevo");
+            test.setBrojStanovnika(222222222);
+            test.setDrzava(testDrzava);
+            //GeografijaDAO.getInstance().dodajDrzavu(testDrzava);
+            GeografijaDAO.getInstance().izmijeniGrad(test);
+           System.out.println(ispisiGradove());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
