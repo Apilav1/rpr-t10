@@ -40,5 +40,6 @@ public class Grad {
 
     public void setDrzava(Drzava drzava) {
         this.drzava = drzava;
+        this.id = drzava.getId();
     }
 }

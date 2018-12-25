@@ -21,6 +21,7 @@ public class Main {
         System.out.println("Unesi naziv drzave: ");
         Scanner ulaz = new Scanner(System.in);
         drzava = ulaz.next();
+        //GeografijaDAO.getInstance();
         Grad g = GeografijaDAO.getInstance().glavniGrad(drzava);
         if(g != null)
             System.out.println("Glavni grad drzave "+drzava+" je "+g.getNaziv());
@@ -37,8 +38,11 @@ public class Main {
            /* Class.forName("org.sqlite.JDBC");
             String url = "jdbc:sqlite:C:/Users/Adi Pilav/Desktop/sqlitee/baza.db";
             conn = DriverManager.getConnection(url);*/
+           // for(Grad g: GeografijaDAO.getInstance().gradovi())
+           //     System.out.println("---"+g.getNaziv());
+           //System.out.println(GeografijaDAO.getInstance().glavniGrad("Engleska"));
             glavniGrad();
-            ispisiGradove();
+           // ispisiGradove();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

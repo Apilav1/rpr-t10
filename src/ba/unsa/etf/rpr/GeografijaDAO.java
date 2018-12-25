@@ -15,7 +15,8 @@ public class GeografijaDAO {
             single_instance = new GeografijaDAO();
         }
         private GeografijaDAO() {
-
+            gradovi = new ArrayList<>();
+            drzave = new ArrayList<>();
             try {
                 Class.forName("org.sqlite.JDBC");
                 String url = "jdbc:sqlite:C:/Users/Adi Pilav/Desktop/sqlitee/baza.db";
@@ -32,6 +33,13 @@ public class GeografijaDAO {
                     String kreiranjeTabeleGrad = "CREATE TABLE grad(id INTEGER, naziv text, broj_stanovnika INTEGER, drzava INTEGER,PRIMARY KEY(id), FOREIGN KEY(drzava) REFERENCES Drzava(id);";
                     PreparedStatement ps = conn.prepareStatement(kreiranjeTabeleGrad);
                     ps.execute();
+                }
+                if(!drzavaExists){
+                    String kreiranjeTabeleGrad = "CREATE TABLE drzava(id INTEGER, naziv text, gravni_grad INTEGER,PRIMARY KEY(id), FOREIGN KEY(glavni_grad) REFERENCES grad(id);";
+                    PreparedStatement ps = conn.prepareStatement(kreiranjeTabeleGrad);
+                    ps.execute();
+                }
+                if(!gradExists && !drzavaExists){
                     //pariz
                     Grad Pariz = new Grad();
                     Drzava Francuska = new Drzava();
@@ -44,6 +52,8 @@ public class GeografijaDAO {
                     Pariz.setBrojStanovnika(321231213);
                     gradovi.add(Pariz);
                     drzave.add(Francuska);
+                    dodajGrad(Pariz);
+                    dodajDrzavu(Francuska);
                     //london
                     Grad London = new Grad();
                     Drzava Engleska = new Drzava();
@@ -56,6 +66,8 @@ public class GeografijaDAO {
                     London.setBrojStanovnika(65432132);
                     gradovi.add(London);
                     drzave.add(Engleska);
+                    dodajGrad(London);
+                    dodajDrzavu(Engleska);
                     //Beč
                     Grad Bec = new Grad();
                     Drzava Austrija = new Drzava();
@@ -68,6 +80,8 @@ public class GeografijaDAO {
                     Bec.setId(3);
                     gradovi.add(Bec);
                     drzave.add(Austrija);
+                    dodajGrad(Bec);
+                    dodajDrzavu(Austrija);
                     //Manchester
                     Grad Manchester = new Grad();
                     Manchester.setId(4);
@@ -75,6 +89,7 @@ public class GeografijaDAO {
                     Manchester.setNaziv("Manchester");
                     Manchester.setDrzava(Engleska);
                     gradovi.add(Manchester);
+                    dodajGrad(Manchester);
                     //Graz
                     Grad Graz = new Grad();
                     Graz.setDrzava(Austrija);
@@ -82,12 +97,9 @@ public class GeografijaDAO {
                     Graz.setId(5);
                     Graz.setBrojStanovnika(6587987);
                     gradovi.add(Graz);
+                    dodajGrad(Graz);
                 }
-                if(!drzavaExists){
-                    String kreiranjeTabeleGrad = "CREATE TABLE drzava(id INTEGER, naziv text, gravni_grad INTEGER,PRIMARY KEY(id), FOREIGN KEY(glavni_grad) REFERENCES grad(id);";
-                    PreparedStatement ps = conn.prepareStatement(kreiranjeTabeleGrad);
-                    ps.execute();
-                }
+
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -225,6 +237,7 @@ public class GeografijaDAO {
                  PreparedStatement ps = conn.prepareStatement(query);
                  ps.setString(1, drzava);
                  ResultSet s = ps.executeQuery();
+                // System.out.println(s);
                  if(s.next()) {
                      d = new Drzava();
                      while (s.next()) {
