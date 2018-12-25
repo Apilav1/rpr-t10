@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ba.unsa.etf.rpr.Controller"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="464.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ba.unsa.etf.rpr.Controller">
+   <children>
+      <TableView fx:id="gradovi" layoutX="9.0" layoutY="239.0" onMouseClicked="#gradoviKliknut" prefHeight="200.0" prefWidth="308.0">
+        <columns>
+        </columns>
+      </TableView>
+      <TextField fx:id="tf1" layoutX="172.0" layoutY="37.0" />
+      <TextField fx:id="tf2" layoutX="172.0" layoutY="83.0" />
+      <TextField fx:id="tf3" layoutX="172.0" layoutY="127.0" />
+      <TableView fx:id="drzave" layoutX="329.0" layoutY="239.0" onMouseClicked="#drzaveKliknut" prefHeight="200.0" prefWidth="270.0">
+        <columns>
+        </columns>
+      </TableView>
+      <Label fx:id="lb1" layoutX="19.0" layoutY="42.0" text="Naziv grada" />
+      <Label fx:id="lb2" layoutX="19.0" layoutY="88.0" text="Broj stanovnika" />
+      <Label fx:id="lb3" layoutX="36.0" layoutY="132.0" text="Drzava" />
+      <Button fx:id="btn" layoutX="428.0" layoutY="48.0" mnemonicParsing="false" text="Izmjena" />
+   </children>
 </AnchorPane>

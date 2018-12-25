@@ -1,7 +1,13 @@
 package ba.unsa.etf.rpr;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Observable;
 
 public class GeografijaDAO {
     private ArrayList<Grad> gradovi;
@@ -9,8 +15,38 @@ public class GeografijaDAO {
     private static GeografijaDAO single_instance = null;
     public boolean gradExists=false, drzavaExists=false;
     private static Connection conn, conn2;
+    //dio modela
+    private ObservableList<Grad> gradoviOList = FXCollections.observableArrayList();
+    private ObjectProperty<Grad> trenutniGrad = new SimpleObjectProperty<>();
+    private ObservableList<Drzava> drzaveOList = FXCollections.observableArrayList();
+    private ObjectProperty<Drzava> trenutnaDrzava = new SimpleObjectProperty<>();
 
+    public Grad getTrenutniGrad(){
+        return trenutniGrad.get();
+    }
+    public void setTrenutniGrad(Grad g){
+        trenutniGrad.set(g);
+    }
+    public ObjectProperty<Grad> trenutniGradProperty(){return trenutniGrad;}
+    public ObservableList<Grad> getGradoviOList() {
+        return gradoviOList;
+    }
+    public void addGrad(Grad g){}
+    public void removeGrad(Grad g){}
 
+    public Drzava getTrenutnaDrzava(){
+        return trenutnaDrzava.get();
+    }
+    public void setTrenutnaDrzava(Drzava d){
+        trenutnaDrzava.set(d);
+    }
+    public ObjectProperty<Drzava> trenutnaDrzavaProperty(){return trenutnaDrzava;}
+    public ObservableList<Drzava> getDrzaveOList() {
+        return drzaveOList;
+    }
+    public void addDrzava(Drzava d){}
+    public void removeDrzava(Drzava d){}
+    //dio modela
         private static void initialize() {
             single_instance = new GeografijaDAO();
         }
@@ -40,7 +76,13 @@ public class GeografijaDAO {
                     PreparedStatement ps = conn.prepareStatement(kreiranjeTabeleGrad);
                     ps.execute();
                 }
-                if(!gradExists && !drzavaExists){
+                //if(!gradExists && !drzavaExists){
+                String query1 = "delete from drzava";
+                PreparedStatement ps1 = conn.prepareStatement(query1);
+                ps1.execute();
+                String query2 = "delete from grad";
+                PreparedStatement ps2 = conn.prepareStatement(query2);
+                ps2.execute();
                     //pariz
                     Grad Pariz = new Grad();
                     Drzava Francuska = new Drzava();
@@ -51,8 +93,12 @@ public class GeografijaDAO {
                     Pariz.setNaziv("Pariz");
                     Pariz.setDrzava(Francuska);
                     Pariz.setBrojStanovnika(321231213);
+                    Pariz.setNazivDrzave(Francuska.getNaziv());
+                    Francuska.setNazivGlGrada(Pariz.getNaziv());
                     gradovi.add(Pariz);
                     drzave.add(Francuska);
+                    drzaveOList.add(Francuska);
+                    gradoviOList.add(Pariz);
                     dodajGrad(Pariz);
                     dodajDrzavu(Francuska);
                     //london
@@ -64,9 +110,13 @@ public class GeografijaDAO {
                     London.setDrzava(Engleska);
                     London.setNaziv("London");
                     London.setId(2);
+                    London.setNazivDrzave(Engleska.getNaziv());
                     London.setBrojStanovnika(65432132);
+                    Engleska.setNazivGlGrada(London.getNaziv());
                     gradovi.add(London);
                     drzave.add(Engleska);
+                    drzaveOList.add(Engleska);
+                    gradoviOList.add(London);
                     dodajGrad(London);
                     dodajDrzavu(Engleska);
                     //Beč
@@ -79,8 +129,12 @@ public class GeografijaDAO {
                     Bec.setNaziv("Bec");
                     Bec.setBrojStanovnika(56423100);
                     Bec.setId(3);
+                    Bec.setNazivDrzave(Austrija.getNaziv());
+                    Austrija.setNazivGlGrada(Bec.getNaziv());
                     gradovi.add(Bec);
                     drzave.add(Austrija);
+                    drzaveOList.add(Austrija);
+                    gradoviOList.add(Bec);
                     dodajGrad(Bec);
                     dodajDrzavu(Austrija);
                     //Manchester
@@ -89,6 +143,8 @@ public class GeografijaDAO {
                     Manchester.setBrojStanovnika(65489723);
                     Manchester.setNaziv("Manchester");
                     Manchester.setDrzava(Engleska);
+                    Manchester.setNazivDrzave(Engleska.getNaziv());
+                    gradoviOList.add(Manchester);
                     gradovi.add(Manchester);
                     dodajGrad(Manchester);
                     //Graz
@@ -96,10 +152,13 @@ public class GeografijaDAO {
                     Graz.setDrzava(Austrija);
                     Graz.setNaziv("Graz");
                     Graz.setId(5);
+                    Graz.setNazivDrzave(Austrija.getNaziv());
                     Graz.setBrojStanovnika(6587987);
+                    gradoviOList.add(Graz);
                     gradovi.add(Graz);
                     dodajGrad(Graz);
-                }
+               // }
+
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

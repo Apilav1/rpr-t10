@@ -1,13 +1,33 @@
 package ba.unsa.etf.rpr;
 
+import javafx.application.Application;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main {
+public class Main extends Application {
 
+    @Override
+    public void start(Stage primaryStage) throws Exception{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("forma.fxml"));
+        //GlavnaController c = new GlavnaController(model);
+        //loader.setController(c);
+        Parent root = loader.load();
+        //primaryStage.setTitle("Biblioteka");
+        primaryStage.setTitle("Glavni prozor");
+        primaryStage.setScene(new Scene(root, 600, 464));
+        primaryStage.show();
+        GeografijaDAO.getInstance();
+
+    }
     public static String ispisiGradove(){
         String ispis="";
         ArrayList<Grad> g = GeografijaDAO.getInstance().gradovi();
@@ -28,6 +48,8 @@ public class Main {
         else
             System.out.println("Nepostojeca drzava");
     }
+
+
     public static void main(String[] args) {
         /*System.out.println("Gradovi su:\n" + ispisiGradove());
         glavniGrad();*/
@@ -43,7 +65,7 @@ public class Main {
            //System.out.println(GeografijaDAO.getInstance().glavniGrad("Engleska"));
            // glavniGrad();
             //GeografijaDAO.getInstance();
-            Drzava testDrzava = new Drzava();
+           /* Drzava testDrzava = new Drzava();
             Grad test = new Grad();
             testDrzava.setId(7);
             testDrzava.setNaziv("BIH");
@@ -54,9 +76,11 @@ public class Main {
             test.setDrzava(testDrzava);
             //GeografijaDAO.getInstance().dodajDrzavu(testDrzava);
             GeografijaDAO.getInstance().izmijeniGrad(test);
-           System.out.println(ispisiGradove());
+
+           System.out.println(ispisiGradove());*/
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        launch(args);
     }
 }
