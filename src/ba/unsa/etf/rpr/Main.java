@@ -15,9 +15,10 @@ public class Main {
         Connection conn = null;
 
         try {
-            Class.forName("org.sqlite.JDBC");
+           /* Class.forName("org.sqlite.JDBC");
             String url = "jdbc:sqlite:C:/Users/Adi Pilav/Desktop/sqlitee/baza.db";
-            conn = DriverManager.getConnection(url);
+            conn = DriverManager.getConnection(url);*/
+           GeografijaDAO.getInstance();
 
         } catch (Exception ex) {
             ex.printStackTrace();
