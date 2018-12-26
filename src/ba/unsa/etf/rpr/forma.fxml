@@ -2,9 +2,13 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 
 <AnchorPane prefHeight="464.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ba.unsa.etf.rpr.Controller">
    <children>
@@ -19,9 +23,34 @@
         <columns>
         </columns>
       </TableView>
-      <Label fx:id="lb1" layoutX="52.0" layoutY="90.0" text="Naziv grada" />
-      <Label fx:id="lb2" layoutX="52.0" layoutY="136.0" text="Broj stanovnika" />
-      <Label fx:id="lb3" layoutX="69.0" layoutY="180.0" text="Drzava" />
-      <Button fx:id="btn" layoutX="461.0" layoutY="96.0" mnemonicParsing="false" text="Izmjena" />
+      <Label fx:id="lb1" layoutX="52.0" layoutY="90.0" text="%naziv" />
+      <Label fx:id="lb2" layoutX="52.0" layoutY="136.0" text="%broj stanovnika" />
+      <Label fx:id="lb3" layoutX="69.0" layoutY="180.0" text="%drzava" />
+      <Button fx:id="btn" layoutX="461.0" layoutY="96.0" mnemonicParsing="false" text="%izmjena" />
+      <HBox layoutY="-4.0" prefHeight="75.0" prefWidth="600.0">
+         <children>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false" text="%Fajl">
+                  <items>
+                      <MenuItem fx:id="save" mnemonicParsing="false" onAction="#stampajKnjige" text="Save" />
+                      <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                  <Menu text="%Pogled">
+                      <items>
+                          <Menu text="%Language">
+                              <items>
+                                  <MenuItem onAction="#bosKliknut" text="%Bosnian" />
+                                  <MenuItem onAction="#engKliknut" text="%English" />
+                                  <MenuItem onAction="#gerKliknut" text="%German" />
+                                  <MenuItem onAction="#frKliknut" text="%French" />
+                              </items>
+                          </Menu>
+                      </items>
+                  </Menu>
+              </menus>
+            </MenuBar>
+         </children></HBox>
    </children>
 </AnchorPane>

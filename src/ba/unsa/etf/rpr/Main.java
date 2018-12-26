@@ -11,13 +11,19 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
+import java.util.ResourceBundle;
+
+
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("forma.fxml"));
+        ResourceBundle bundle = ResourceBundle.getBundle("resources/Translation");
+        Locale.setDefault(new Locale("bs", "BA"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/forma.fxml"), bundle);
         //GlavnaController c = new GlavnaController(model);
         //loader.setController(c);
         Parent root = loader.load();

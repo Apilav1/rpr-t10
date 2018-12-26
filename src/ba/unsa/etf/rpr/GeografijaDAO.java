@@ -346,4 +346,5 @@ public class GeografijaDAO {
                     return g;
             return null;
         }
+        public Connection getConn() { return conn; }
     }

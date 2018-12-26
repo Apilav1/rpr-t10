@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import net.sf.jasperreports.engine.JRException;
 
 public class Controller {
     @FXML
@@ -18,6 +19,8 @@ public class Controller {
     TableView<Drzava> drzave;
     @FXML
     Label lb1, lb2, lb3;
+    @FXML
+    MenuItem save;
     public int trenutniGrad=1, trenutnaDrzava=1;
     public boolean gradIzmjena=false, drzavaIzmjena=false;
     public void initialize(){
@@ -133,5 +136,14 @@ public class Controller {
             lb1.setText("Naziv drzave");
             lb2.setText("Naziv glavnog grada");
         }
+    }
+
+    public void stampajKnjige(ActionEvent actionEvent) {
+        try {
+            new PrintReport().showReport(GeografijaDAO.getInstance().getConn());
+        } catch (JRException e1) {
+            e1.printStackTrace();
+        }
+
     }
 }
