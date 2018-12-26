@@ -288,12 +288,13 @@ public class GeografijaDAO {
         }
          void izmijeniGrad(Grad grad){
              try {
-                 String query = "UPDATE grad set naziv=?, broj_stanovnika=?, drzava=? where naziv =?";
+                 String query = "UPDATE grad set naziv=?, broj_stanovnika=?, drzava=? where id =?";
                  PreparedStatement ps = conn.prepareStatement(query);
                  ps.setString(1, grad.getNaziv());
                  ps.setInt(2, grad.getBrojStanovnika());
                  ps.setInt(3, grad.getDrzava().getId());
-                 ps.setString(4, grad.getNaziv());
+                 ps.setInt(4, grad.getId());
+                 //System.out.println(grad.getNaziv()+ " "+grad.getBrojStanovnika()+" drzava:"+grad.getDrzava().getNaziv()+" "+grad.getId());
                  ps.executeUpdate();
              }
              catch (Exception e){
@@ -302,15 +303,20 @@ public class GeografijaDAO {
          }
          Drzava nadjiDrzavu(String drzava){
             Drzava d;
+            Boolean ima = false;
              try {
+                 //System.out.println("naziv"+drzava);
                  String query = "SELECT id, naziv, glavni_grad from drzava where naziv = ?";
                  PreparedStatement ps = conn.prepareStatement(query);
                  ps.setString(1, drzava);
                  ResultSet s = ps.executeQuery();
-                // System.out.println(s);
-                 if(s.next()) {
+                 //if(s.next()) {
+
+                     //System.out.println("imah..");
                      d = new Drzava();
                      while (s.next()) {
+                         ima = true;
+                        // System.out.println("ima..");
                          d.setId(s.getInt(1));
                          d.setNaziv(s.getString(2));
                          query = "SELECT id, naziv, broj_stanovnika, drzava from grad where drzava = ?";
@@ -324,15 +330,20 @@ public class GeografijaDAO {
                          tempGrad.setDrzava(d);
                          d.setGlavniGrad(tempGrad);
                      }
-                     return d;
-                 }
-                 else{
-                         return null;
-                     }
+                     //System.out.println("nasao drzavu: "+d.getNaziv());
+
+                     if(!ima) return null;
+                     else return d;
              }
              catch (Exception e){
                  System.out.println("Greska u glavniGrad(String drzava): "+e);
              }
              return null;
          }
+        Grad nadjiGrad(String grad){
+            for(Grad g: gradoviOList)
+                if(g.getNaziv().equals(grad))
+                    return g;
+            return null;
+        }
     }
